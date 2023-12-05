@@ -1087,7 +1087,10 @@ def main(args):
                         if args.train_text_encoder
                         else unet_lora_parameters
                     )
-                    accelerator.clip_grad_norm_(params_to_clip, args.max_grad_norm)
+                    if args.max_grad_norm > 0:
+                        accelerator.clip_grad_norm_(params_to_clip, args.max_grad_norm)
+                    #else:
+                    #    print("D----: Grad Norm is disabled !!!!! ---- ")
                 optimizer.step()
                 lr_scheduler.step()
                 optimizer.zero_grad()
